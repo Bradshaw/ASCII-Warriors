@@ -114,8 +114,8 @@ function clock(){
 
 function circle(x,y,r,chr){
 	var r2 = r*r
-	for (var i=-r;i<=r;i++){
-		for (var j=-r*ratio;j<=r*ratio;j++){
+	for (var i=-r;(i<=r && i<width);i++){
+		for (var j=-r*ratio;(j<=r*ratio && j<height);j++){
 			var dx = i+0.5;
 			var dy = j*ratio+0.5;
 			var d2 = (dx*dx+dy*dy);
@@ -140,31 +140,55 @@ function setNeutral(chr){
 var lastUpdate = Date.now();
 var myInterval = setInterval(tick, 0);
 var scroll = 0;
+
+var spart = [];
+
 function tick(){
 
     var now = Date.now();
     var dt = now - lastUpdate;
     lastUpdate = now;
 
-	setColour(25,25,25)
-	setNeutral("-")
+	setColour(10,20,30);
+	setNeutral(".")
 	clearScreen();
-	scroll+=0.02*dt;
-	setColour(25,35,45)
+	scroll+=0.01*dt;
+	setColour(25,35,45);
 	circle(width/2,height/2,35+Math.sin(scroll/7)*5,"-");
 	circle(width/2,height/2,25+Math.sin(scroll/7)*5,"=");
 	circle(width/2,height/2,15+Math.sin(scroll/7)*5,"#");
-	setColour(25,80,100)
-	circle(width/2+Math.sin(scroll/34)*(width/3),height/2+Math.cos(scroll/34)*(height/3)*ratio,5+Math.sin(scroll/3)*3,"#");
-	setColour(100,100,100)
+	setColour(100,40,25);
+	circle(width/3,height/3,8+Math.sin(scroll/10)*2+2.6,"-");
+	circle(width/3,height/3,8+Math.sin(scroll/10)*2+1.3,"=");
+	circle(width/3,height/3,8+Math.sin(scroll/10)*2,"#");
+	setColour(200,80,50);
+	box((width/3)-1-(15/2),height/3-2,15+2,3,"+",'-','|');
+	setColour(255,255,100);
+	text((width/3)-(15/2),height/3-1,"ASCII Warriors!");
 
-	box((width/2)-1-(13/2),2*height/3-Math.abs(Math.sin(scroll/5)*height/3)-1,13+2,3,"+",'-','|');
-	setColour(25,120,60)
-	text((width/2)-(13/2),2*height/3-Math.abs(Math.sin(scroll/5)*height/3),"Hello, world!");
-	setColour(100,40,40)
+	setColour(100,127,127);
+	var i = 0;
+	while (i<spart.length) {
+    	spart[i].y += (spart[i].spd/50)*dt;
+    	spart[i].x += Math.random();
+    	if (spart[i].y>height){
+    		spart.splice(i,1);
+    	} else {
+    		setXY(spart[i].x,spart[i].y,"'");
+    		i++;
+    	}
+    }
+    if (spart.length<50){
+    	spart.push({x:Math.random()*width*2-width, y:0, spd:1+Math.random()});
+    }
+
+    setColour(15,60,10);
+    circle(width,height*2.5,height*3,"#");
+
+	setColour(100,40,40);
 	box(0,0,width,height,"+",'-','|');
 	box(0,0,8,3,"+",'-','|');
-	text(1,1,"f/s:"+Math.round(1000/dt))
+	text(1,1,"f/s:"+Math.round(1000/dt));
 	paint();
 }
 
