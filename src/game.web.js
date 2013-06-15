@@ -102,8 +102,9 @@ function box(x,y,w,h,corn,hori,vert) {
 	setXY(x,y+h-1,corn);
 }
 
-function text(x,y,text){
+function text(x,y,text,cover){
 	for (var i=0; i<text.length; i++){
+		if (text[i]!=cover)
 		setXY(i+x,y,text[i]);
 	}
 }
@@ -140,7 +141,7 @@ function setNeutral(chr){
 var lastUpdate = Date.now();
 var myInterval = setInterval(tick, 0);
 var scroll = 0;
-
+var raise = height;
 var spart = [];
 
 function tick(){
@@ -154,17 +155,39 @@ function tick(){
 	clearScreen();
 	scroll+=0.01*dt;
 	setColour(25,35,45);
+	var ligt= false;
+	if (Math.random()>0.95){
+		ligt = true;
+		setColour(64,64,64);
+	}
 	circle(width/2,height/2,35+Math.sin(scroll/7)*5,"-");
 	circle(width/2,height/2,25+Math.sin(scroll/7)*5,"=");
 	circle(width/2,height/2,15+Math.sin(scroll/7)*5,"#");
-	setColour(100,40,25);
-	circle(width/3,height/3,8+Math.sin(scroll/10)*2+2.6,"-");
-	circle(width/3,height/3,8+Math.sin(scroll/10)*2+1.3,"=");
-	circle(width/3,height/3,8+Math.sin(scroll/10)*2,"#");
-	setColour(200,80,50);
-	box((width/3)-1-(15/2),height/3-2,15+2,3,"+",'-','|');
-	setColour(255,255,100);
-	text((width/3)-(15/2),height/3-1,"ASCII Warriors!");
+	if (!ligt){
+		setColour(100,40,25);
+		circle(width/3,height/3,8+Math.sin(scroll/10)*2+2.6,"-");
+		circle(width/3,height/3,8+Math.sin(scroll/10)*2+1.3,"=");
+		circle(width/3,height/3,8+Math.sin(scroll/10)*2-2,"#");
+	}
+	
+	if (ligt){
+		setColour(255,160,100);
+	} else {
+		setColour(200,80,50);
+	}
+
+	raise = Math.max(1,raise-0.004*dt)
+	text(width/2-29,raise+6,"############_____####__________________#.___.___","#");
+	text(width/2-29,raise+7,"###########/  _  \\  /   _____/\\_   ___ \\|   |   |","#");
+	text(width/2-29,raise+8,"##########/  /_\\  \\ \\_____  \\ /    \\  \\/|   |   |","#");
+	text(width/2-29,raise+9,"#########/    |    \\/        \\\\     \\___|   |   |","#");
+	text(width/2-29,raise+10,"#########\\____|__  /_______  / \\______  /___|___|","#");
+	text(width/2-29,raise+11,"##__######__#####\\/########\\/#####__##\\/","#");
+	text(width/2-29,raise+12,"#/  \\    /  \\_____ ______________|__| ___________  ______","#");
+	text(width/2-29,raise+13,"#\\   \\/\\/   /\\__  \\\\_  __ \\_  __ \\  |/  _ \\_  __ \\/  ___/","#");
+	text(width/2-29,raise+14,"##\\        /  / __ \\|  | \\/|  | \\/  (  <_> )  | \\/\\___ \\","#");
+	text(width/2-29,raise+15,"###\\__/\\  /  (____  /__|   |__|  |__|\\____/|__|  /____  >","#");
+	text(width/2-29,raise+16,"########\\/########\\/##################################\\/","#");
 
 	setColour(100,127,127);
 	var i = 0;
@@ -182,13 +205,30 @@ function tick(){
     	spart.push({x:Math.random()*width*2-width, y:0, spd:1+Math.random()});
     }
 
-    setColour(15,60,10);
-    circle(width,height*2.5,height*3,"#");
+    setColour(200,80,50);
+	//box((width/3)-1-(15/2),height/3-2,15+2,3,"+",'-','|');
+	setColour(255,255,100);
+	//text((width/3)-(15/2),height/3-1,"ASCII Warriors!");
+
+
+	if (ligt){
+    	setColour(70,80,70);
+    } else {
+    	setColour(15,60,10);
+    }
+    circle(2*width/3,height*3.3,height*4,"#");
+
+    if (ligt){
+		setColour(255,160,100);
+	} else {
+		setColour(200,80,50);
+	}
+    
 
 	setColour(100,40,40);
 	box(0,0,width,height,"+",'-','|');
-	box(0,0,8,3,"+",'-','|');
-	text(1,1,"f/s:"+Math.round(1000/dt));
+	text(3,0,"+ ASCII Warriors +")
+	text(width/2-29,height-1,"#######+ Kevin \"Gaeel\" Bradshaw - 2013 - YoinkPL +",'#')
 	paint();
 }
 
