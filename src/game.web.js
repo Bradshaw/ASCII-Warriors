@@ -104,11 +104,7 @@ function box(x,y,w,h,corn,hori,vert) {
 
 function text(x,y,text){
 	for (var i=0; i<text.length; i++){
-		if (text[i]!=' '){
-			setXY(i+x,y,text[i]);
-		} else {
-			setXY(i+x,y,"&nbsp");
-		}
+		setXY(i+x,y,text[i]);
 	}
 }
 
@@ -151,12 +147,12 @@ function tick(){
     lastUpdate = now;
 
 	setColour(25,25,25)
-	setNeutral(".")
+	setNeutral("-")
 	clearScreen();
 	scroll+=0.02*dt;
 	setColour(25,35,45)
 	circle(width/2,height/2,35+Math.sin(scroll/7)*5,"-");
-	circle(width/2,height/2,25+Math.sin(scroll/7)*5,"*");
+	circle(width/2,height/2,25+Math.sin(scroll/7)*5,"=");
 	circle(width/2,height/2,15+Math.sin(scroll/7)*5,"#");
 	setColour(25,80,100)
 	circle(width/2+Math.sin(scroll/34)*(width/3),height/2+Math.cos(scroll/34)*(height/3)*ratio,5+Math.sin(scroll/3)*3,"#");
