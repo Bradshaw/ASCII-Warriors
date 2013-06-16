@@ -1,4 +1,5 @@
 var ascwar = {}
+ascwar.conf = {}
 
 var screen = document.getElementById("displaybox");
 var screenBuffer = [];
@@ -133,3 +134,17 @@ ascwar.setColour = function(r,g,b){
 ascwar.setNeutral = function(chr){
 	neut = chr;
 }
+
+ascwar.update = function(dt){}
+ascwar.draw = function(){}
+ascwar.tick = function(){
+	var now = Date.now();
+    var dt = now - lastUpdate;
+    lastUpdate = now;
+    ascwar.update(dt);
+    ascwar.draw();
+    ascwar.paint();
+}
+
+var lastUpdate = Date.now();
+var myInterval = setInterval(ascwar.tick, (1000/60));

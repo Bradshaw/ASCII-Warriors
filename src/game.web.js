@@ -1,25 +1,38 @@
-var lastUpdate = Date.now();
-var myInterval = setInterval(tick, (1000/60));
 var scroll = 0;
 var raise = height;
 var spart = [];
-function clock(){
-	return (new Date()).getMilliseconds();
+var fps = 0;
+
+ascwar.update = function(dt){
+	fps = (1000/dt)
+    dt = Math.min(dt,1000/20);
+
+	scroll+=0.01*dt;
+	raise = Math.max(1,raise-0.004*dt)
+	
+	var i = 0;
+	var dir = Math.sin(scroll/128)
+	while (i<spart.length) {
+    	spart[i].y += (1/50)*dt;
+    	spart[i].x += (spart[i].spd/50)*dt*dir*1.3;
+    	if (spart[i].y>height){
+    		spart.splice(i,1);
+    	} else {
+    		i++;
+    	}
+    }
+    if (spart.length<50){
+    	spart.push({x:Math.floor(Math.random()*width*3-width), y:0, spd:1+Math.random()});
+    	spart.push({x:Math.floor(Math.random()*width*3-width), y:0, spd:1+Math.random()});
+    }
 }
 
-function tick(){
-
-    var now = Date.now();
-    var dt = now - lastUpdate;
-    var fps = (1000/dt)
-    dt = Math.min(dt,1000/20);
-    lastUpdate = now;
+ascwar.draw = function(dt){
 
 	//ascwar.setColour(10,20,30);
 	ascwar.setColour(25,35,45);
 	ascwar.setNeutral(" ")
 	ascwar.clearScreen();
-	scroll+=0.01*dt;
 	ascwar.setColour(25,35,45);
 	var ligt= false;
 	if (Math.random()>0.95){
@@ -41,8 +54,6 @@ function tick(){
 	} else {
 		ascwar.setColour(220,60,30);
 	}
-
-	raise = Math.max(1,raise-0.004*dt)
 	ascwar.text(width/2-29,raise+6,"############_____####__________________#.___.___","#");
 	ascwar.text(width/2-29,raise+7,"###########/  _  \\  /   _____/\\_   ___ \\|   |   |","#");
 	ascwar.text(width/2-29,raise+8,"##########/  /_\\  \\ \\_____  \\ /    \\  \\/|   |   |","#");
@@ -70,24 +81,14 @@ function tick(){
 	var i = 0;
 	var dir = Math.sin(scroll/128)
 	while (i<spart.length) {
-    	spart[i].y += (1/50)*dt;
-    	spart[i].x += (spart[i].spd/50)*dt*dir*1.3;
-    	if (spart[i].y>height){
-    		spart.splice(i,1);
-    	} else {
-    		if (dir<-0.2) {
-    			ascwar.setXY(spart[i].x,spart[i].y,"/");
-    		} else if (dir>0.2) {
-    			ascwar.setXY(spart[i].x,spart[i].y,"\\");
-    		} else {
-    			ascwar.setXY(spart[i].x,spart[i].y,"|");
-    		} 
-    		i++;
-    	}
-    }
-    if (spart.length<50){
-    	spart.push({x:Math.floor(Math.random()*width*3-width), y:0, spd:1+Math.random()});
-    	spart.push({x:Math.floor(Math.random()*width*3-width), y:0, spd:1+Math.random()});
+		if (dir<-0.2) {
+			ascwar.setXY(spart[i].x,spart[i].y,"/");
+		} else if (dir>0.2) {
+			ascwar.setXY(spart[i].x,spart[i].y,"\\");
+		} else {
+			ascwar.setXY(spart[i].x,spart[i].y,"|");
+		} 
+		i++;
     }
     
 
@@ -96,7 +97,6 @@ function tick(){
 	ascwar.text(3,0,"+ ASCII Warriors v0.0 +")
 	//ascwar.text(1,height-2,"F/s:"+Math.round(fps));
 	ascwar.text(width/2-29,height-1,"#######+ Kevin \"Gaeel\" Bradshaw - 2013 - YoinkPL +",'#')
-	ascwar.paint();
 }
 
 console.log("loaded");
