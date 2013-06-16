@@ -2,8 +2,8 @@ var ascwar = {}
 
 var screen = document.getElementById("displaybox");
 var screenBuffer = [];
-var width = 80;
-var height = 30;
+var width = 120;
+var height = 25;
 var red = 25;
 var green = 25;
 var blue = 25;
