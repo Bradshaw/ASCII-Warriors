@@ -1,4 +1,4 @@
-Yoink Public Licence
+Yoink Public License
 ====================
 
 All software in this project under YoinkPL unless otherwise noted.

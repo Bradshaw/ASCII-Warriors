@@ -13,8 +13,8 @@ ascwar.update = function(dt){
 	var i = 0;
 	var dir = Math.sin(scroll/128)
 	while (i<spart.length) {
-    	spart[i].y += (1/50)*dt;
-    	spart[i].x += (spart[i].spd/50)*dt*dir*1.3;
+    	spart[i].y += (1/40)*dt;
+    	spart[i].x += (spart[i].spd/40)*dt*dir*1.3;
     	if (spart[i].y>height){
     		spart.splice(i,1);
     	} else {
