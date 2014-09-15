@@ -1,7 +1,6 @@
-var ascwar = {}
-ascwar.conf = {}
+var ascwar = {};
+ascwar.conf = {};
 
-var screen = document.getElementById("displaybox");
 var screenBuffer = [];
 var width = 120;
 var height = 25;
@@ -9,12 +8,12 @@ var red = 25;
 var green = 25;
 var blue = 25;
 var neut = ".";
-var ratio = 1.6
+var ratio = 1.6;
 
-screen.innerHTML = "Loading...";
+document.getElementById("displaybox").innerHTML = "Loading...";
 
 ascwar.paint = function(){
-	var buf = ""
+	var buf = "";
 	var lr = -1;
 	var lg = -1;
 	var lb = -1;
@@ -43,15 +42,15 @@ ascwar.paint = function(){
 	if (fonted){
 		buf += "</font>";
 	}
-	screen.innerHTML = buf;
-}
+	document.getElementById("displaybox").innerHTML = buf;
+};
 
 ascwar.getXY = function(x,y){
 	y=Math.floor(y);
 	x=Math.floor(x);
 	var pos = ((y%height)*width+(x%width));
 	return screenBuffer[pos];
-}
+};
 
 ascwar.setXY = function(x,y,chr){
 	y=Math.floor(y);
@@ -64,7 +63,7 @@ ascwar.setXY = function(x,y,chr){
 				g: green,
 				b: blue,
 				chr: chr
-			}
+			};
 		} else {
 			screenBuffer[pos].chr = chr;
 			screenBuffer[pos].r = red;
@@ -72,7 +71,7 @@ ascwar.setXY = function(x,y,chr){
 			screenBuffer[pos].b = blue;
 		}
 	}
-}
+};
 
 ascwar.clearScreen = function(chr){
 	for (var i=0;i<width;i++){
@@ -80,7 +79,7 @@ ascwar.clearScreen = function(chr){
 			ascwar.setXY(i,j,neut);
 		}
 	}
-}
+};
 
 ascwar.rectangle = function(x,y,w,h,chr){
 	for (var i=x;i<x+w;i++){
@@ -88,7 +87,7 @@ ascwar.rectangle = function(x,y,w,h,chr){
 			ascwar.setXY(i,j,chr);
 		}
 	}
-}
+};
 
 ascwar.box = function(x,y,w,h,corn,hori,vert) {
 	for (var i=x;i<x+w;i++){
@@ -110,10 +109,10 @@ ascwar.text = function(x,y,text,cover){
 		if (text[i]!=cover)
 		ascwar.setXY(i+x,y,text[i]);
 	}
-}
+};
 
 ascwar.circle = function(x,y,r,chr){
-	var r2 = r*r
+	var r2 = r*r;
 	for (var i=-r;(i<=r && i<width);i++){
 		for (var j=-r*ratio;(j<=r*ratio && j<height);j++){
 			var dx = i+0.5;
@@ -124,19 +123,19 @@ ascwar.circle = function(x,y,r,chr){
 			}
 		}
 	}
-}
+};
 
 ascwar.setColour = function(r,g,b){
 	red = r;
 	green = g;
 	blue = b;
-}
+};
 ascwar.setNeutral = function(chr){
 	neut = chr;
-}
+};
 
-ascwar.update = function(dt){}
-ascwar.draw = function(){}
+ascwar.update = function(dt){};
+ascwar.draw = function(){};
 ascwar.tick = function(){
 	var now = Date.now();
     var dt = now - lastUpdate;
@@ -144,7 +143,7 @@ ascwar.tick = function(){
     ascwar.update(dt);
     ascwar.draw();
     ascwar.paint();
-}
+};
 
 var lastUpdate = Date.now();
 var myInterval = setInterval(ascwar.tick, (1000/60));
